@@ -102,7 +102,7 @@ func createECHConfig(id uint8, pubKey []byte, publicName string, maxNameLen uint
 	return builder.BytesOrPanic()
 }
 
-func generateECHpem(id uint8, serverName string) []byte {
+func GenerateECHpem(id uint8, serverName string) []byte {
 	echKey, err := ecdh.X25519().GenerateKey(rand.Reader)
 	if err != nil {
 		log.Fatalf("Failed to generate ECH key: %v", err)
@@ -136,7 +136,7 @@ func generateECHpem(id uint8, serverName string) []byte {
 }
 
 func generateKeyFile(id uint8, serverName string, outputFile string) {
-	output := generateECHpem(id, serverName)
+	output := GenerateECHpem(id, serverName)
 	err := os.WriteFile(outputFile, []byte(output), 0644)
 	if err != nil {
 		log.Fatalf("Failed to write to file %s: %v", outputFile, err)
