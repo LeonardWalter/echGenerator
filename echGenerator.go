@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/ecdh"
 	"crypto/rand"
 	"crypto/x509"
@@ -101,8 +102,7 @@ func createECHConfig(id uint8, pubKey []byte, publicName string, maxNameLen uint
 	return builder.BytesOrPanic()
 }
 
-// https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/
-func generateKeyFile(id uint8, serverName string, outputFile string) {
+func generateECHpem(id uint8, serverName string) []byte {
 	echKey, err := ecdh.X25519().GenerateKey(rand.Reader)
 	if err != nil {
 		log.Fatalf("Failed to generate ECH key: %v", err)
@@ -132,8 +132,12 @@ func generateKeyFile(id uint8, serverName string, outputFile string) {
 	echConfigPEM := fmt.Sprintf("-----BEGIN ECHCONFIG-----\n%s\n-----END ECHCONFIG-----\n",
 		echConfigListBase64)
 
-	output := string(privateKeyPEM) + echConfigPEM
-	err = os.WriteFile(outputFile, []byte(output), 0644)
+	return bytes.Join([][]byte{privateKeyPEM, []byte(echConfigPEM)}, nil)
+}
+
+func generateKeyFile(id uint8, serverName string, outputFile string) {
+	output := generateECHpem(id, serverName)
+	err := os.WriteFile(outputFile, []byte(output), 0644)
 	if err != nil {
 		log.Fatalf("Failed to write to file %s: %v", outputFile, err)
 	}
