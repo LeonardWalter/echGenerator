@@ -1,4 +1,4 @@
-module echGenerator
+module github.com/LeonardWalter/echGenerator
 
 go 1.24.0
 
