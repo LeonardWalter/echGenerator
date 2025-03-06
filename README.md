@@ -26,3 +26,13 @@ This Go project generates Encrypted ClientHello (ECH) key and configuration PEM 
 -o: Output file name. If not provided, the output file will be <server_name>.pem.ech
 -h: Show help.
 ```
+
+## Example output:
+ ```pem
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VuBCIEIG7Wc0oeswNKlNMfNe+gSwaFhVU3GDdoSAzfZGDpSaIm
+-----END PRIVATE KEY-----
+-----BEGIN ECHCONFIG-----
+AEb+DQBCFQAgACAfYnXA4GJHffFuchf/+AMUNodczfzPy8RLtVOjFs7FZwAMAAEAAQABAAIAAQADIAtleGFtcGxlLmNvbQAA
+-----END ECHCONFIG-----
+ ```
